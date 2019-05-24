@@ -20,7 +20,7 @@ mkdir build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=<install_directory> ..
 make install
 ```
-where `<install_directory>` is the directory where to install WRF. Depending on your system's configuration, you may need to specify [WRF-CMake options](#wrf-cmake-options). If multiple compilers are available on the system, use the `CC` (C compiler) and/or `FC` (Fortran compiler) environment variables to specify them. For example, to use Intel C and Fortran compilers run `CC=icc FC=ifort cmake -DCMAKE_INSTALL_PREFIX=<install_directory> ..`. On macOS, use `CC=gcc-8 FC=gfortran-8` to use the GNU compilers installed with Homebrew.
+where `<install_directory>` is the directory where to install WRF. Depending on your system's configuration, you may need to specify [WRF-CMake options](#wrf-cmake-options). If multiple compilers are available on the system, use the `CC` (C compiler) and/or `FC` (Fortran compiler) environment variables to specify them. For example, to use Intel C and Fortran compilers run `CC=icc FC=ifort cmake -DCMAKE_INSTALL_PREFIX=<install_directory> ..`. On macOS, use `CC=gcc-8 FC=gfortran-8` to use the GNU compilers installed with Homebrew. If your system has enough memory you can enable parallel compilation with `make install -j <n>` where `<n>` is the maximum number of jobs you like to run in parallel.
 
 #### Note for HPC users relying on the Modules package
 If you are using `modules` for the dynamic modification of the user's environment via modulefiles, you will need to specify the path to the NetCDF manually after you loaded all the libraries required to compile WRF/WPS. For example:
@@ -56,6 +56,7 @@ cmake -G "MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=<install_directory> ..
 make install
 ```
 The folder `<install_directory>` now contains the WRF installation and is ready to use.
+If your system has enough memory you can enable parallel compilation with `make install -j <n>` where `<n>` is the maximum number of jobs you like to run in parallel.
 
 #### Build WRF-CMake with MPI support
 Open an MSYS2 **MinGW 64-bit** shell and run:
@@ -68,6 +69,8 @@ cmake -G "MSYS Makefiles" -DMODE=dmpar -DCMAKE_INSTALL_PREFIX=<install_directory
     -DMPI_Fortran_LIBRARY="$MSMPI_LIB64/msmpifec.lib" ..
 make install
 ```
+The folder `<install_directory>` now contains the WRF installation and is ready to use.
+If your system has enough memory you can enable parallel compilation with `make install -j <n>` where `<n>` is the maximum number of jobs you like to run in parallel.
 
 ### WRF-CMake options
 By default WRF-CMake will compile in `serial` mode with `basic` nesting option. You can change this by specifying the option (or flag) at configure time. The general syntax for specifying an option in CMake is `-D<flag_name>=<flag_value>` where `<flag_name>` is the option/flag name and `<flag_value>` is the option/flag value. The following options can be specified when configuring WRF-CMake:
@@ -102,7 +105,8 @@ cmake -DCMAKE_INSTALL_PREFIX=<install_directory> -DWRF_DIR=<wrf_cmake_build_dire
 make install
 ```
 
-where `<install_directory>` is the directory where to install WPS and `<wrf_cmake_build_directory>` is the Path to the `build` folder of WRF (relative or absolute). To specify more options, please see the [WPS-CMake options](#wps-cmake-options).
+where `<install_directory>` is the directory where to install WPS and `<wrf_cmake_build_directory>` is the path to the `build` folder of WRF (relative or absolute). To specify more options, please see the [WPS-CMake options](#wps-cmake-options).
+You can enable parallel compilation with `make install -j <n>` where `<n>` is the maximum number of jobs you like to run in parallel.
 
 ### WPS-CMake options
 
