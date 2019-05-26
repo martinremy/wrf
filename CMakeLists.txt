@@ -306,6 +306,7 @@ add_definitions(
     -DKEEP_INT_AROUND
     -DLIMIT_ARGS
     -DBUILD_RRTMG_FAST=1
+    -DSHOW_ALL_VARS_USED=0
     -DCONFIG_BUF_LEN=65536
     -DMAX_DOMAINS_F=21
     -DIWORDSIZE=4
@@ -314,6 +315,7 @@ add_definitions(
     -DRWORDSIZE=4
     -DMAX_HISTORY=25
     -DWRF_USE_CLM
+    -DLANDREAD_STUB=1
 
     # See Transpose() subroutine in external/io_netcdf/wrf_io.F90.
     -DNO_M4

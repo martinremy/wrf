@@ -32,6 +32,7 @@ add_library(share STATIC
 	module_llxy.F
 	module_interp_nmm.F
 	module_interp_store.F
+	module_string_tools.F
 	module_MPP.F
 	module_date_time.F
 	module_bc.F
