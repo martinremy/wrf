@@ -80,5 +80,6 @@ General WRF copyright and license applies for any files part of the original WRF
 
 Additional files provided by WRF-CMake are licensed according to [LICENSE_CMAKE.txt](LICENSE_CMAKE.txt) if the relevant file contains the following header at the beginning of the file, otherwise the general WRF copyright and license applies.
 ```
-Copyright 2018 M. Riechert and D. Meyer. Licensed under the MIT License.
+WRF-CMake (https://github.com/WRF-CMake/WRF).
+Copyright <year> M. Riechert and D. Meyer. Licensed under the MIT License.
 ```
