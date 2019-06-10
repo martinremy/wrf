@@ -5,6 +5,12 @@ There are two mandatory and one optional step to install WRF-/WPS-CMake from sou
 2. [Build and Install WRF-CMake](#build-and-install-wrf-cmake) (required)
 3. [Build and Install WPS-CMake](#build-and-install-wps-cmake) (optional)
 
+[Homebrew](https://github.com/WRF-CMake/homebrew-wrf) users: You can build and install an MPI-enabled release version with basic nesting support with:
+```sh
+brew install -v wrf-cmake/wrf/wrf
+```
+For more flexibility, see the manual build instructions below.
+
 ## Install dependencies
 The following libraries are required on your system to install WRF-CMake from source: [Git](https://git-scm.com/), [JasPer](https://www.ece.uvic.ca/~frodo/jasper/), [libpng](http://www.libpng.org/pub/png/libpng.html), [libjpeg](http://libjpeg.sourceforge.net/), [zlib](https://zlib.net/), [HDF5](https://support.hdfgroup.org/HDF5/), [NetCDF-C](https://www.unidata.ucar.edu/downloads/netcdf/index.jsp), [NetCDF-Fortran](https://www.unidata.ucar.edu/downloads/netcdf/index.jsp), and MPI (required if building in `dmpar` or `dm_sm` mode). The above libraries are most likely available from your system's package manager (e.g. APT, yum, Homebrew, etc.). If you do not have the latest version of these libraries installed on your system, please see [this page](LIBS.md).
 
