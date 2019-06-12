@@ -7,7 +7,8 @@ There are two mandatory and one optional step to install WRF-/WPS-CMake from sou
 
 [Homebrew](https://github.com/WRF-CMake/homebrew-wrf) users: You can build and install an MPI-enabled release version with basic nesting support with:
 ```sh
-brew install -v wrf-cmake/wrf/wrf
+brew tap wrf-cmake/wrf
+brew install wrf-cmake -v
 ```
 For more flexibility, see the manual build instructions below.
 
