@@ -52,7 +52,9 @@ To build WRF-CMake from source, see [this page](doc/cmake/INSTALL.md).
 
 ## Testing
 
-In our current GitHub set-up, we perform a series of compilation and regression tests at each commit using the [WRF-CMake Automated Testing Suite](https://github.com/WRF-CMake/wats) on Windows, macOS, and Linux. You can find the results of such tests [here](https://travis-ci.com/WRF-CMake), [here](https://ci.appveyor.com/project/WRF-CMake/wrf), and [here](https://ci.appveyor.com/project/WRF-CMake/wps).
+In our current GitHub set-up, we perform a series of compilation and regression tests at each commit using the [WRF-CMake Automated Testing Suite](https://github.com/WRF-CMake/wats) on [Windows, macOS, and Linux](https://dev.azure.com/WRF-CMake/WRF/_build).
+
+When you build WRF or WRF-CMake yourself then you have already done a compilation test. If you like to replicate the regression tests, then follow the steps on the "[Running regression tests locally](doc/ci/LOCAL.md)" page.
 
 
 ## Changes to be upstreamed
