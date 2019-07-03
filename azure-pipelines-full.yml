@@ -5,6 +5,15 @@
 trigger:
 - wrf-cmake
 
+# Run every week even if there are no code changes.
+# Catches any problems due to new dependency versions from package managers.
+schedules:
+- cron: "0 0 * * Wed"
+  displayName: Weekly build
+  branches:
+    include: [ wrf-cmake ]
+  always: true
+
 jobs:
 - template: .ci/azure-pipelines/matrix.yml
   parameters:
