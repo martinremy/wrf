@@ -8,8 +8,8 @@ parameters:
     Windows: windows.yml
   
   Linux:
-    CC: gcc-8
-    FC: gfortran-8
+    CC: gcc-9
+    FC: gfortran-9
   macOS:
     CC: gcc-9
     FC: gfortran-9
