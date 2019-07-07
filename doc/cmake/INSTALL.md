@@ -19,10 +19,10 @@ The following libraries are required on your system to install WRF-CMake from so
 
 ### Transition from original build system
 
-Original | CMake
----------|------
-`./configure` | `cmake ...`
-`./compile` | `make install`
+| Original      | CMake          |
+| ------------- | -------------- |
+| `./configure` | `cmake ...`    |
+| `./compile`   | `make install` |
 
 Further notes:
 - The original build system uses a series of terminal prompts when running `./configure` whereas for CMake any non-default options need to be specified as command-line arguments.
@@ -31,7 +31,7 @@ Further notes:
 ### On Linux and macOS
 The general commands to download, configure and install WRF-CMake on Linux and macOS are:
 
-```
+``` sh
 git clone https://github.com/WRF-CMake/WRF.git
 cd WRF
 mkdir build && cd build
@@ -41,9 +41,9 @@ make install
 where `<install_directory>` is the directory where to install WRF. Depending on your system's configuration, you may need to specify [WRF-CMake options](#wrf-cmake-options). If multiple compilers are available on the system, use the `CC` (C compiler) and/or `FC` (Fortran compiler) environment variables to specify them. For example, to use Intel C and Fortran compilers run `CC=icc FC=ifort cmake -DCMAKE_INSTALL_PREFIX=<install_directory> ..`. On macOS, use `CC=gcc-8 FC=gfortran-8` to use the GNU compilers installed with Homebrew. If your system has enough memory you can enable parallel compilation with `make install -j <n>` where `<n>` is the maximum number of jobs you like to run in parallel.
 
 #### Note for HPC users relying on the Modules package
-If you are using `modules` for the dynamic modification of the user's environment via modulefiles, you will need to specify the path to the NetCDF manually after you loaded all the libraries required to compile WRF/WPS. For example:
+If you are using `modules` for the dynamic modification of the user's environment via modulefiles, you will need to specify the path to the NetCDF manually _after_ loading all the libraries required to compile WRF/WPS. For example:
 
-```
+``` sh
 # This is an example, module names/versions may be different on your system
 module list # enabled modules
 module avail # available modules
@@ -53,13 +53,13 @@ module load openmpi
 module load gnu/8.1.0
 ```
 
-If you do not know the location of NetCDF, you can locate it with the `nc-config --prefix`.
+If you do not know the location of NetCDF, you can locate it with the `nc-config --prefix`. Then, manually specify the path NetCDF-C and NetCDF-Fortran installation directories at configure time:
 
-```
-cmake -DCMAKE_INSTALL_PREFIX=install -DNETCDF_DIR=$NETCDF4_DIR ..
+``` sh
+cmake -DNETCDF_DIR=<path_to_netcdf-c-dir> -DNETCDF_FORTRAN_DIR=<path_to_netcdf-fortran-dir> ..
 ```
 
-where `$NETCDF4_DIR` is the absolute path to your NetCDF installation directory.
+where `<path_to_netcdf-c-dir>` and `<path_to_netcdf-fortran-dir>` are the absolute path to your NetCDF-C and NetCDF-Fortran installation directories.
 
 ### On Windows (with MinGW-w64 and gcc/gfortran)
 Make sure you [installed all the required dependencies](README_CMAKE_LIBS.md) before continuing.
@@ -93,14 +93,16 @@ If your system has enough memory you can enable parallel compilation with `make 
 ### WRF-CMake options
 By default WRF-CMake will compile in `serial` mode with `basic` nesting option. You can change this by specifying the option (or flag) at configure time. The general syntax for specifying an option in CMake is `-D<flag_name>=<flag_value>` where `<flag_name>` is the option/flag name and `<flag_value>` is the option/flag value. The following options can be specified when configuring WRF-CMake:
 
-|Name|Options|Default|Description|
-|----|-------|-------|-----------|
-|`MODE`|`serial`, `dmpar`, `smpar`, `dm_sm`|`serial`|Serial/parallel modes|
-|`NESTING`|`none`, `basic`, `vortex`, `following`|`basic`|Domain Options|
-|`CMAKE_BUILD_TYPE`|`Release`, `Debug`, `RelWithDebInfo`|`Release`|Whether to optimise/build with debug flags.|
-|`ENABLE_RUNTIME_CHECKS`|`ON`, `OFF`|`OFF`|Whether to enable compiler runtime checks in Release mode.|
-|`ENABLE_GRIB1`|`ON`, `OFF`|`ON`|Enable/Disable GRIB 1 support.|
-|`ENABLE_GRIB2`|`ON`, `OFF`|`ON`|Enable/Disable GRIB 2 support.|
+| Name                    | Options                                | Default   | Description                                                 |
+| ----------------------- | -------------------------------------- | --------- | ----------------------------------------------------------- |
+| `MODE`                  | `serial`, `dmpar`, `smpar`, `dm_sm`    | `serial`  | Serial/parallel modes                                       |
+| `NESTING`               | `none`, `basic`, `vortex`, `following` | `basic`   | Domain Options                                              |
+| `CMAKE_BUILD_TYPE`      | `Release`, `Debug`, `RelWithDebInfo`   | `Release` | Whether to optimise/build with debug flags.                 |
+| `ENABLE_RUNTIME_CHECKS` | `ON`, `OFF`                            | `OFF`     | Whether to enable compiler runtime checks in Release mode.  |
+| `ENABLE_GRIB1`          | `ON`, `OFF`                            | `ON`      | Enable/Disable GRIB 1 support.                              |
+| `ENABLE_GRIB2`          | `ON`, `OFF`                            | `ON`      | Enable/Disable GRIB 2 support.                              |
+| `NETCDF_DIR`            | `<path>`                               | -         | Path to NetCDF-C installation directory (_OPTIONAL_).       |
+| `NETCDF_FORTRAN_DIR`    | `<path>`                               | -         | Path to NetCDF-Fortran installation directory (_OPTIONAL_). |
 
 
 For example, to build and install WRF-CMake on Linux/macOS by setting all the available options and installing in `~/apps/WRF` with gcc and gfortran:
@@ -128,11 +130,11 @@ You can enable parallel compilation with `make install -j <n>` where `<n>` is th
 
 ### WPS-CMake options
 
-|Name|Options|Default|Description|
-|----|-------|-------|-----------|
-|`CMAKE_BUILD_TYPE`|`Release`, `Debug`, `RelWithDebInfo`|`Release`|Whether to optimise/build with debug flags.|
-|`ENABLE_RUNTIME_CHECKS`|`ON`, `OFF`|`OFF`|Whether to enable compiler runtime checks in Release mode.|
-|`ENABLE_GRIB1`|`ON`, `OFF`|`OFF`|Enable/Disable GRIB 1 support (`ungrib` always has GRIB 1).|
-|`ENABLE_GRIB2_PNG`|`ON`, `OFF`|`ON`|Enable/Disable GRIB 2 PNG support.|
-|`ENABLE_GRIB2_JPEG2000`|`ON`, `OFF`|`ON`|Enable/Disable GRIB 2 JPEG2000 support.|
-|`WRF_DIR`|`<path>`|-|Path to the `build` folder of WRF.|
+| Name                    | Options                              | Default   | Description                                                 |
+| ----------------------- | ------------------------------------ | --------- | ----------------------------------------------------------- |
+| `CMAKE_BUILD_TYPE`      | `Release`, `Debug`, `RelWithDebInfo` | `Release` | Whether to optimise/build with debug flags.                 |
+| `ENABLE_RUNTIME_CHECKS` | `ON`, `OFF`                          | `OFF`     | Whether to enable compiler runtime checks in Release mode.  |
+| `ENABLE_GRIB1`          | `ON`, `OFF`                          | `OFF`     | Enable/Disable GRIB 1 support (`ungrib` always has GRIB 1). |
+| `ENABLE_GRIB2_PNG`      | `ON`, `OFF`                          | `ON`      | Enable/Disable GRIB 2 PNG support.                          |
+| `ENABLE_GRIB2_JPEG2000` | `ON`, `OFF`                          | `ON`      | Enable/Disable GRIB 2 JPEG2000 support.                     |
+| `WRF_DIR`               | `<path>`                             | -         | Path to the `build` folder of WRF.                          |
