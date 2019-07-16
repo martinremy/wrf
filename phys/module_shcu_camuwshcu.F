@@ -5298,18 +5298,18 @@ end subroutine uwshcu_readnl
 !
       do i = 1,ncol
 
-#ifdef DEBUG
-         if ( (lchnk == lchnklook(nlook) ) .and. (i == icollook(nlook) ) ) then
-            write(iulog,*) ' '
-#ifdef WRF_PORT
-            call wrf_message(iulog)
-#endif
-            write(iulog,*) ' level, t, q, p', k, t(i,k), q(i,k), p(i,k)
-#ifdef WRF_PORT
-            call wrf_message(iulog)
-#endif
-         endif
-#endif
+!#ifdef DEBUG
+!         if ( (lchnk == lchnklook(nlook) ) .and. (i == icollook(nlook) ) ) then
+!            write(iulog,*) ' '
+!#ifdef WRF_PORT
+!            call wrf_message(iulog)
+!#endif
+!            write(iulog,*) ' level, t, q, p', k, t(i,k), q(i,k), p(i,k)
+!#ifdef WRF_PORT
+!            call wrf_message(iulog)
+!#endif
+!         endif
+!#endif
 ! limit the temperature range to that relevant to the sat vap pres tables
 #if ( ! defined WACCM_MOZART )
          tlim(i) = min(max(t(i,k),173._r8),373._r8)
