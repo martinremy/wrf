@@ -96,7 +96,7 @@ We introduce WRF-CMake as a modern replacement for the existing WRF build system
 
 # Acknowledgements
 
-We thank A. J. Geer at the European Centre for Medium-Range Weather Forecasts (ECMWF) for the useful discussion and feedback concerning the topic of error growth in dynamical systems.
+We thank A. J. Geer at the European Centre for Medium-Range Weather Forecasts (ECMWF) for the useful discussion and feedback concerning the topic of error growth in dynamical systems. We also thank the reviewers I. Beekman and A. Hilboll for their time and useful contributions to both paper and software.
 
 # Appendix A Statistics
 
