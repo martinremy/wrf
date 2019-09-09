@@ -1,0 +1,25 @@
+{
+    "title": "WRF-CMake: integrating CMake support into the Advanced Research WRF (ARW) modelling system",
+    "description": "<p>WRF-CMake adds CMake support to the latest version of the Advanced Research Weather Research and Forecasting model with the intention of streamlining and simplifying its configuration and build process.</p><p>&nbsp;</p><p>As WRF-CMake is an extension of the original WRF model and software, we ask to please cite both model (i.e. Skamarock et al., (2018)), and software with version. For more information on how to do this correctly, please see the&nbsp;<a title='How to cite section' href='https://github.com/WRF-CMake/wrf#how-to-cite' target='_blank' rel='noopener'>How to cite section</a>&nbsp;on the project's GitHub page.</p>",
+    "keywords": [
+        "cmake",
+        "fortran",
+        "meteorology",
+        "weather",
+        "modelling",
+        "nwp"
+    ],
+    "upload_type": "software",
+    "access_right": "open",
+    "license": "MIT",
+    "creators": [
+        {
+            "orcid": "0000-0003-3299-1382",
+            "name": "Riechert, M."
+        },
+        {
+            "orcid": "0000-0002-7071-7547",
+            "name": "Meyer, D."
+        }
+    ]
+}
