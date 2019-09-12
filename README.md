@@ -1,4 +1,4 @@
-# WRF-CMake [![Build status Azure Pipelines](https://dev.azure.com/WRF-CMake/wrf/_apis/build/status/WRF%20(full)?branchName=wrf-cmake)](https://dev.azure.com/WRF-CMake/wrf/_build/latest?definitionId=5&branchName=wrf-cmake) [![Build status Appveyor](https://ci.appveyor.com/api/projects/status/86508wximkvmf95g/branch/wrf-cmake?svg=true)](https://ci.appveyor.com/project/WRF-CMake/wrf/branch/wrf-cmake) [![Build status Travis CI](https://travis-ci.com/WRF-CMake/wrf.svg?branch=wrf-cmake)](https://travis-ci.com/WRF-CMake/wrf)
+# WRF-CMake [![Build status Azure Pipelines](https://dev.azure.com/WRF-CMake/wrf/_apis/build/status/WRF%20(full)?branchName=wrf-cmake)](https://dev.azure.com/WRF-CMake/wrf/_build/latest?definitionId=5&branchName=wrf-cmake) [![Build status Appveyor](https://ci.appveyor.com/api/projects/status/86508wximkvmf95g/branch/wrf-cmake?svg=true)](https://ci.appveyor.com/project/WRF-CMake/wrf/branch/wrf-cmake) [![Build status Travis CI](https://travis-ci.com/WRF-CMake/wrf.svg?branch=wrf-cmake)](https://travis-ci.com/WRF-CMake/wrf) [![DOI](https://joss.theoj.org/papers/10.21105/joss.01468/status.svg)](https://doi.org/10.21105/joss.01468) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3403342.svg)](https://doi.org/10.5281/zenodo.3403342)
 
   - [Project overview](#project-overview)
     - [Currently supported platforms](#currently-supported-platforms)
@@ -95,17 +95,18 @@ Otherwise, if you are a beginner, we recommend going [through the basics](http:/
 
 When using WRF-CMake, please cite both model, and software (with version), e.g.:
 
-> We used the Weather Research and Forecasting (WRF) model (Skamarock et al., 2018) type WRF-CMake (Riechert and Meyer, 2019a), version x.x.x (Riechert and Meyer, 2019b) to ...
+> We used the Weather Research and Forecasting (WRF) model (Skamarock et al., 2018), WRF-CMake (Riechert and Meyer, 2019a) version 4.1.0 (Riechert and Meyer, 2019b) to ...
 
 The corresponding reference list should be as follows
 
-> Riechert, M., Meyer, D. (2019a). TODO: *In preparation*
+> Riechert, M., & Meyer, D. (2019a). WRF-CMake: Integrating CMake support into the Advanced Research WRF (ARW) modelling system. Journal of Open Source Software, 4(41), 1468. https://doi.org/10.21105/joss.01468
 >
-> Riechert, M., Meyer, D. (2019b). TODO: *In preparation*
+> Riechert, M., & Meyer, D. (2019b). WRF-CMake: integrating CMake support into the Advanced Research WRF (ARW) modelling system (Version WRF-CMake-4.1.0). Zenodo. http://doi.org/10.5281/zenodo.3403343
 >
-> Skamarock, W. C., Klemp, J. B., Dudhia, J., Gill, D. O., Liu, Z., Berner, J., Wang, W., et
-al. (2019). A description of the advanced research wrf model version 4 (p. 145). NCAR
-Technical Note NCAR/TN-556+STR. doi:10.5065/1dfh-6p97
+> Skamarock, W. C., Klemp, J. B., Dudhia, J., Gill, D. O., Liu, Z., Berner, J., … Huang, X.-Y. (2019). A Description of the Advanced Research WRF Model Version 4. NCAR Technical Note NCAR/TN-556+STR, 145. https://doi.org/10.5065/1dfh-6p97
+
+
+If you are looking to cite a different version of WRF-CMake than the one above see the list of WRF-CMake DOIs on Zenodo at https://doi.org/10.5281/zenodo.3403342.
 
 
 ## How to contribute
