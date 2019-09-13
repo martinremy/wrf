@@ -107,7 +107,7 @@ The corresponding reference list should be as follows
 > Skamarock, W. C., Klemp, J. B., Dudhia, J., Gill, D. O., Liu, Z., Berner, J., … Huang, X.-Y. (2019). A Description of the Advanced Research WRF Model Version 4. NCAR Technical Note NCAR/TN-556+STR, 145. https://doi.org/10.5065/1dfh-6p97
 
 
-If you are looking to cite a different version of WRF-CMake than the one above see the list of WRF-CMake DOIs on Zenodo at https://doi.org/10.5281/zenodo.3403342.
+If you are looking to cite a different version of WRF-CMake, please see the list of WRF-CMake DOIs on Zenodo at https://doi.org/10.5281/zenodo.3403342.
 
 
 ## How to contribute
