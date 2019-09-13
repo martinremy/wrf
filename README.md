@@ -52,9 +52,11 @@ Please note that HPC users, or users seeking to run WRF in the 'most optimal' co
 
 
 ### Manually from source
+
 To build and install WRF-CMake or WPS-CMake manually from source, see [the install from source page](doc/cmake/INSTALL.md).
 
 ### Using Homebrew or Linuxbrew
+
 WRF-CMake and WPS-CMake can be built and installed using [Homebrew](https://docs.brew.sh/Installation) (macOS) or [Linuxbrew](https://docs.brew.sh/Homebrew-on-Linux#install) (Linux) with the following commands:
 
 ``` bash
@@ -82,7 +84,7 @@ If you want to launch WRF-CMake and WPS-CMake binary distributions built in `dmp
 
 ## Documentation
 
-- For the WRF model technical documentation, please refer to [A Description of the Advanced Research WRF Version 3](https://opensky.ucar.edu/islandora/object/technotes%3A500/datastream/PDF/view).
+- For the WRF model technical documentation, please refer to [A Description of the Advanced Research WRF Version 4](https://doi.org/10.5065/1dfh-6p97).
 - For the WRF model user documentation, please refer to [The Advanced Research WRF version 4 Modeling System User’s Guide](http://www2.mmm.ucar.edu/wrf/users/docs/user_guide_v4/contents.html).
 
 ## Example usage
