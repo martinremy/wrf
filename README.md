@@ -38,7 +38,6 @@ For more details, please see the short summary paper [WRF-CMake: integrating CMa
 - WRFPLUS
 - WRF-Chem
 - WRF-Hydro
-- Promotion of Fortran's REAL to DOUBLE
 - File and line number in wrf_error_fatal() messages
 - WRF-NMM (discontinued -- see https://dtcenter.org/wrf-nmm/users/)
 - Automatic moving nests (via `TERRAIN_AND_LANDUSE` environment variable)
