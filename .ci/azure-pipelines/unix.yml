@@ -8,37 +8,31 @@ jobs:
   timeoutInMinutes: 0
 
   pool:
-    ${{ if eq(parameters.OS_NAME, 'Linux') }}:
+    ${{ if or(eq(parameters.OS_NAME, 'Ubuntu'), eq(parameters.OS_NAME, 'CentOS')) }}:
       vmImage: ubuntu-latest
     ${{ if eq(parameters.OS_NAME, 'macOS') }}:
       vmImage: macOS-10.14
 
-  ${{ if eq(parameters.OS_NAME, 'Linux') }}:
-    container:
-      image: ubuntu:16.04
-      options: "--name ci-container -v /usr/bin/docker:/tmp/docker:ro"
-
   variables:
     ${{ insert }}: ${{ parameters }}
-
+    ${{ if eq(parameters.OS_NAME, 'Ubuntu') }}:
+      IMAGE: ubuntu:16.04
+      run: .ci/unix/run-in-docker.sh
+    ${{ if eq(parameters.OS_NAME, 'CentOS') }}:
+      IMAGE: quay.io/pypa/manylinux2010_x86_64:latest
+      run: .ci/unix/run-in-docker.sh
+        
   steps:
-  - ${{ if eq(parameters.OS_NAME, 'Linux') }}:
-    # https://github.com/Microsoft/azure-pipelines-agent/issues/2043#issuecomment-489692810
-    - script: |
-        /tmp/docker exec -t -u 0 ci-container \
-          sh -c "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confold" -y install sudo"
-      displayName: Set up sudo
-
-  - script: .ci/unix/dump-vm-specs.sh
+  - script: $(run) .ci/unix/dump-vm-specs.sh
     displayName: Dump VM specs
 
-  - script: printenv
+  - script: $(run) printenv | sort
     displayName: Dump environment variables
 
-  - script: .ci/unix/setup-dependencies.sh
+  - script: $(run) .ci/unix/setup-dependencies.sh
     displayName: Setup dependencies
 
-  - script: .ci/unix/install-wrf.sh
+  - script: $(run) .ci/unix/install-wrf.sh
     displayName: Install WRF
 
   - ${{ if eq(parameters.WATS_RUN, 'true') }}:

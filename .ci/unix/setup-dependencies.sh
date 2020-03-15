@@ -13,10 +13,11 @@ HTTP_RETRIES=3
 
 if [ "$(uname)" == "Linux" ]; then
 
-    echo "APT::Acquire::Retries \"${HTTP_RETRIES}\";" | sudo tee /etc/apt/apt.conf.d/80-retries
-
-    sudo apt-get update
-    sudo apt-get install -y software-properties-common curl cmake
+    if [ "$(lsb_release -i -s)" == "Ubuntu" ]; then
+        echo "APT::Acquire::Retries \"${HTTP_RETRIES}\";" | sudo tee /etc/apt/apt.conf.d/80-retries
+        sudo apt-get update
+        sudo apt-get install -y software-properties-common curl cmake
+    fi
 
     if [ "$(lsb_release -c -s)" == "trusty" ]; then
         # We don't use latest compiler versions for 14.04 as we would otherwise
@@ -35,7 +36,7 @@ if [ "$(uname)" == "Linux" ]; then
         # to detect whether NetCDF v4 support is available.
         # Since nc-config has the same CLI, just symlink. 
         sudo ln -sf /usr/bin/nc-config /usr/bin/nf-config
-    else
+    elif [ "$(lsb_release -i -s)" == "Ubuntu" ]; then
         # macOS (via Homebrew) and Windows (via MSYS2) always provide the latest
         # compiler versions. On Ubuntu, we need to opt-in explicitly. 
         sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -64,10 +65,75 @@ if [ "$(uname)" == "Linux" ]; then
         cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr ..
         make -j 4
         sudo make install
+    elif [ "$(lsb_release -i -s)" == "CentOS" ]; then
+        sudo yum install -y zlib-devel libpng-devel jasper-devel libjpeg-devel xz
+
+        curl -L --retry ${HTTP_RETRIES} https://cmake.org/files/v3.14/cmake-3.14.3-Linux-x86_64.sh -o cmake.sh
+        sudo bash cmake.sh --prefix=/usr --exclude-subdir --skip-license
+        rm cmake.sh
+
+        SZIP_VERSION=2.1.1
+        curl -L --retry ${HTTP_RETRIES} https://support.hdfgroup.org/ftp/lib-external/szip/${SZIP_VERSION}/src/szip-${SZIP_VERSION}.tar.gz | tar xz
+        pushd szip-${SZIP_VERSION}
+        ./configure --prefix=/usr
+        sudo make install -j$(nproc)
+        popd
+
+        HDF5_VERSION=1.10.5
+        curl -L --retry ${HTTP_RETRIES} https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-${HDF5_VERSION}/src/CMake-hdf5-${HDF5_VERSION}.tar.gz | tar xz
+        pushd CMake-hdf5-${HDF5_VERSION}/hdf5-${HDF5_VERSION}
+        mkdir build
+        cd build
+        cmake -DCMAKE_INSTALL_PREFIX=/usr \
+            -DBUILD_SHARED_LIBS=ON \
+            -DBUILD_TESTING=OFF \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_SKIP_RPATH=ON \
+            -DHDF5_BUILD_HL_LIB=ON \
+            -DHDF5_BUILD_CPP_LIB=OFF \
+            -DHDF5_BUILD_FORTRAN=ON \
+            -DHDF5_BUILD_TOOLS=OFF \
+            -DHDF5_BUILD_EXAMPLES=OFF \
+            -DHDF5_ENABLE_DEPRECATED_SYMBOLS=ON \
+            -DHDF5_ENABLE_SZIP_SUPPORT=ON \
+            -DHDF5_ENABLE_Z_LIB_SUPPORT=ON \
+            -LA ..
+        sudo make install -j$(nproc)
+        # for WRF-Make
+        sudo ln -s /usr/lib/libhdf5_hl_fortran.so /usr/lib/libhdf5hl_fortran.so &&
+        popd
+
+        NETCDF_C_VERSION=4.6.1
+        curl -L --retry ${HTTP_RETRIES} https://github.com/Unidata/netcdf-c/archive/v${NETCDF_C_VERSION}.tar.gz | tar xz
+        pushd netcdf-c-${NETCDF_C_VERSION}
+        ./configure --prefix=/usr \
+            --disable-doxygen \
+            --enable-logging \
+            --disable-dap \
+            --disable-examples \
+            --disable-testsets
+        sudo make install -j$(nproc)
+        popd
+
+        NETCDF_FORTRAN_VERSION=4.4.4
+        curl -L --retry ${HTTP_RETRIES} https://github.com/Unidata/netcdf-fortran/archive/v${NETCDF_FORTRAN_VERSION}.tar.gz | tar xz
+        pushd netcdf-fortran-${NETCDF_FORTRAN_VERSION}
+        export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/lib
+        ./configure --prefix=/usr --enable-static
+        sudo make install -j$(nproc)
+        popd
+    else
+        echo "The environment is not recognised"
+        exit 1
     fi
 
     if [ $BUILD_SYSTEM == 'Make' ]; then
-        sudo apt-get install -y csh m4 libhdf5-serial-dev
+        if [ "$(lsb_release -i -s)" == "Ubuntu" ]; then
+            sudo apt-get install -y csh m4 libhdf5-serial-dev
+        elif [ "$(lsb_release -i -s)" == "CentOS" ]; then
+            sudo yum install -y tcsh m4
+            sudo ln -sf $(which cpp) /lib/cpp
+        fi
     fi
 
     if [[ $MODE == dm* ]]; then
@@ -80,8 +146,7 @@ if [ "$(uname)" == "Linux" ]; then
             curl -L --retry ${HTTP_RETRIES} https://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz | tar xz
             cd mpich-${MPICH_VERSION}
             ./configure --prefix=/usr
-            make -j 4
-            sudo make install
+            sudo make install -j$(nproc)
         fi
     fi
 

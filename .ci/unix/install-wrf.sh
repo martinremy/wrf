@@ -78,7 +78,7 @@ elif [ $BUILD_SYSTEM == 'Make' ]; then
             *) echo "Invalid: $MODE"; exit 1 ;;
         esac
 
-        if [ "$(lsb_release -c -s)" == "trusty" ]; then
+        if [ "$(lsb_release -c -s)" == "trusty" -o "$(lsb_release -i -s)" == "CentOS" ]; then
             export HDF5=/usr
             export NETCDF=/usr
         else
