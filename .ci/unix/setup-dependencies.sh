@@ -133,6 +133,8 @@ if [ "$(uname)" == "Linux" ]; then
         elif [ "$(lsb_release -i -s)" == "CentOS" ]; then
             sudo yum install -y tcsh m4
             sudo ln -sf $(which cpp) /lib/cpp
+            # Used in WPS.
+            sudo ln -sf $(which cpp) /usr/bin/cpp
         fi
     fi
 
