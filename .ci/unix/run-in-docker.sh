@@ -20,9 +20,13 @@ if [ ! "$(docker ps -q -f name=$container)" ]; then
     
     echo "Installing sudo inside container"
     if [[ $OS_NAME == CentOS ]]; then
+      set -x
       docker exec $container sh -c "yum install -y sudo"
+      set +x
     else
+      set -x
       docker exec $container sh -c "apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confold" -y install sudo"
+      set +x
     fi
 fi
 
@@ -30,4 +34,5 @@ echo "Running inside container: $@"
 host_envs=$(env | cut -f1 -d= | sed 's/^/-e /' | grep -v -e PATH -e HOME)
 # Use login shell so that ~/.bash_profile is read.
 # use-conda.sh appends to that file to modify the PATH.
+set -x
 docker exec $host_envs $container bash --login -c "$@"
