@@ -26,7 +26,7 @@ elif [ "$(lsb_release -i -s)" == "CentOS" ]; then
     tmp_dir=$(mktemp -d)
     cd $tmp_dir
 
-    echo "from setuptools import setup; setup(name='app', packages=['main'], package_data={'main': ['*.exe']})" > setup.py
+    echo "from setuptools import setup; setup(name='main', packages=['main'], package_data={'main': ['*.exe']})" > setup.py
     ln -s $root_dir/build/install/main main
     $py setup.py bdist_wheel
 
@@ -39,6 +39,7 @@ elif [ "$(lsb_release -i -s)" == "CentOS" ]; then
 
     # /bin/cp as cp is aliased to 'cp -i' and would ask before overwriting
     /bin/cp -r main/. $root_dir/build/install/main
+    /bin/cp -r main.libs $root_dir/build/install
 
 else
     echo "Unsupported OS: $(uname)"
