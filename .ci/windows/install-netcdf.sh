@@ -27,7 +27,7 @@ curl -L --retry ${HTTP_RETRIES} https://github.com/Unidata/netcdf-fortran/archiv
 cd netcdf-fortran-4.4.4
 sed -i 's/ADD_SUBDIRECTORY(examples)/#ADD_SUBDIRECTORY(examples)/' CMakeLists.txt # patch CMakeLists.txt and comment out example building
 mkdir build && cd build
-CC=gcc FC=gfortran cmake -DCMAKE_GENERATOR="MSYS Makefiles" \
+CC=gcc FC=gfortran FFLAGS="-fallow-argument-mismatch" cmake -DCMAKE_GENERATOR="MSYS Makefiles" \
     -DBUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DENABLE_TESTS=OFF \
     -DCMAKE_INSTALL_PREFIX=$MINGW_PREFIX ..
 make -j 4

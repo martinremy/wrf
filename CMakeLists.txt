@@ -295,8 +295,14 @@ find_package(RPC)
 
 if (USE_REAL8)
     set(RWORDSIZE 8)
+    add_definitions(
+        -DBUILD_SBM_FAST=0
+    )
 else()
     set(RWORDSIZE 4)
+    add_definitions(
+        -DBUILD_SBM_FAST=1
+    )
 endif()
 
 # Common definitions are globally defined such that they are inherited in subfolders and their targets.
@@ -313,6 +319,7 @@ add_definitions(
     -DKEEP_INT_AROUND
     -DLIMIT_ARGS
     -DBUILD_RRTMG_FAST=1
+    -DBUILD_RRTMK=1
     -DSHOW_ALL_VARS_USED=0
     -DCONFIG_BUF_LEN=65536
     -DMAX_DOMAINS_F=21
@@ -323,6 +330,7 @@ add_definitions(
     -DMAX_HISTORY=25
     -DWRF_USE_CLM
     -DLANDREAD_STUB=1
+    -DRPC_TYPES=1
 
     # See Transpose() subroutine in external/io_netcdf/wrf_io.F90.
     -DNO_M4

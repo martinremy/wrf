@@ -16,27 +16,19 @@ if [ "$(uname)" == "Linux" ]; then
     if [ "$(lsb_release -i -s)" == "Ubuntu" ]; then
         echo "APT::Acquire::Retries \"${HTTP_RETRIES}\";" | sudo tee /etc/apt/apt.conf.d/80-retries
         sudo apt-get update
-        sudo apt-get install -y software-properties-common curl cmake
+        sudo apt-get install -y software-properties-common curl unzip
+    elif [ "$(lsb_release -i -s)" == "CentOS" ]; then
+        sudo yum install -y unzip
     fi
 
-    if [ "$(lsb_release -c -s)" == "trusty" ]; then
-        # We don't use latest compiler versions for 14.04 as we would otherwise
-        # also have to build both netcdf-c and netcdf-fortran, whereas on
-        # newer Ubuntu these two are separate packages and we just have to
-        # build netcdf-fortran. 14.04 is kept for Travis CI only. 
+    curl -L --retry ${HTTP_RETRIES} https://cmake.org/files/v3.17/cmake-3.17.5-Linux-x86_64.sh -o cmake.sh
+    sudo bash cmake.sh --prefix=/usr --exclude-subdir --skip-license
+    rm cmake.sh
 
-        # Ubuntu 14.04 provides netCDF 4.1. All versions of netCDF <= 4.1 contain
-        # all components (incl. Fortran libraries), whereas netCDF > 4.1 is split
-        # up into separate libraries.
-        # Note: netcdf-bin is only necessary as it provides nc-config which is pulled
-        # in via libnetcdf-dev in later Ubuntu versions.
-        sudo apt-get install gfortran libnetcdf-dev netcdf-bin
+    curl -L --retry ${HTTP_RETRIES} https://github.com/ninja-build/ninja/releases/download/v1.10.2/ninja-linux.zip -o ninja-linux.zip
+    sudo unzip ninja-linux.zip -d /usr/bin
 
-        # Ubuntu 14.04 does not offer nf-config, however WRF-Make's configure script relies on it
-        # to detect whether NetCDF v4 support is available.
-        # Since nc-config has the same CLI, just symlink. 
-        sudo ln -sf /usr/bin/nc-config /usr/bin/nf-config
-    elif [ "$(lsb_release -i -s)" == "Ubuntu" ]; then
+    if [ "$(lsb_release -i -s)" == "Ubuntu" ]; then
         # macOS (via Homebrew) and Windows (via MSYS2) always provide the latest
         # compiler versions. On Ubuntu, we need to opt-in explicitly. 
         sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -62,15 +54,11 @@ if [ "$(uname)" == "Linux" ]; then
         cd netcdf-fortran-4.4.4
         sed -i 's/ADD_SUBDIRECTORY(examples)/#ADD_SUBDIRECTORY(examples)/' CMakeLists.txt
         mkdir build && cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr ..
+        FFLAGS="-fallow-argument-mismatch" cmake -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr ..
         make -j 4
         sudo make install
     elif [ "$(lsb_release -i -s)" == "CentOS" ]; then
         sudo yum install -y zlib-devel libpng-devel jasper-devel libjpeg-devel xz
-
-        curl -L --retry ${HTTP_RETRIES} https://cmake.org/files/v3.14/cmake-3.14.3-Linux-x86_64.sh -o cmake.sh
-        sudo bash cmake.sh --prefix=/usr --exclude-subdir --skip-license
-        rm cmake.sh
 
         SZIP_VERSION=2.1.1
         curl -L --retry ${HTTP_RETRIES} https://support.hdfgroup.org/ftp/lib-external/szip/${SZIP_VERSION}/src/szip-${SZIP_VERSION}.tar.gz | tar xz
@@ -139,17 +127,17 @@ if [ "$(uname)" == "Linux" ]; then
     fi
 
     if [[ $MODE == dm* ]]; then
-        if [ "$(lsb_release -c -s)" == "trusty" ]; then
-            sudo apt-get install -y libmpich-dev
-        else
-            # Need to build mpich manually as the Fortran compiler versions have to match.
-            MPICH_VERSION=3.2.1
-            cd /tmp
-            curl -L --retry ${HTTP_RETRIES} https://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz | tar xz
-            cd mpich-${MPICH_VERSION}
-            ./configure --prefix=/usr
-            sudo make install -j$(nproc)
+        # Need to build mpich manually as the Fortran compiler versions have to match.
+        MPICH_VERSION=3.4
+        cd /tmp
+        curl -L --retry ${HTTP_RETRIES} https://www.mpich.org/static/downloads/${MPICH_VERSION}/mpich-${MPICH_VERSION}.tar.gz | tar xz
+        cd mpich-${MPICH_VERSION}
+        if [ "$(lsb_release -i -s)" == "Ubuntu" ]; then
+            # gcc 10 work-around (note the CentOS image is on gcc 9 still)
+            mpich_flags="FFLAGS=-fallow-argument-mismatch"
         fi
+        ./configure --prefix=/usr --with-device=ch3 $mpich_flags
+        sudo make install -j$(nproc)
     fi
 
     nc-config --all
@@ -175,6 +163,14 @@ elif [ "$(uname)" == "Darwin" ]; then
 
     # 'brew update' uses git and does not have a retry option, so we wrap it.
     retry brew update -v
+
+    # Work around https://github.com/Homebrew/discussions/discussions/498.
+    brew uninstall --ignore-dependencies --force gcc@8
+    brew uninstall --ignore-dependencies --force gcc@9
+    brew uninstall --ignore-dependencies --force gcc
+    
+    # Without this, installing python (ninja dependency) fails.
+    rm -f /usr/local/bin/2to3
 
     # Since "brew install" can't silently ignore already installed packages
     # we're using this instead.

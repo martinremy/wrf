@@ -88,6 +88,7 @@ add_library(phys STATIC
 	module_mp_fer_hires.F
 	module_mp_HWRF.F
 	module_mp_thompson.F
+	module_mp_SBM_polar_radar.F
 	module_mp_full_sbm.F
 	module_mp_fast_sbm.F
 	module_ltng_lpi.F
@@ -103,6 +104,7 @@ add_library(phys STATIC
 	module_mp_wdm6.F
 	module_mp_wdm7.F
 	module_mp_cammgmp_driver.F
+	module_irrigation.F
 	module_ra_sw.F
 	module_ra_clWRF_support.F
 	module_ra_gsfcsw.F
@@ -117,6 +119,7 @@ add_library(phys STATIC
 	module_ra_rrtmg_swk.F
 	module_ra_cam_support.F
 	module_ra_cam.F
+	module_ra_farms.F
 	module_ra_gfdleta.F
 	module_ra_flg.F
 	module_ra_HWRF.F
@@ -205,10 +208,12 @@ add_library(phys STATIC
 	module_diag_functions.F
 	module_diag_hailcast.F
 	module_diag_misc.F
+	module_diag_nwp.F
 	module_diag_rasm.F
 	module_diag_pld.F
 	module_diag_zld.F
 	module_diag_trad_fields.F
+	module_diag_solar.F
 )
 
 set_property(TARGET phys PROPERTY Fortran_FORMAT FREE)

@@ -106,6 +106,5 @@ install(FILES
     run_2way.tar
     run_restart.tar
     sample.txt
-    wind-turbine-1.tbl
     windturbines.txt
     DESTINATION test/em_real)

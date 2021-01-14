@@ -453,7 +453,6 @@ BENCH_START(surf_driver_tim)
   IF ( ( config_flags%sf_surface_physics.eq.NOAHMPSCHEME ) .and. ( config_flags%opt_run.eq.5 ) ) THEN
        IF ( mod(grid%itimestep,grid%STEPWTD).eq.0 )  THEN
 #     include "HALO_EM_HYDRO_NOAHMP.inc"
-         ENDIF
        ENDIF
   ENDIF
 #endif
