@@ -6,11 +6,6 @@ set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/mod)
 include_directories(
 	${NETCDF_F77_INCLUDE_DIR}
 	${RPC_INCLUDE_DIR}
-
-	# Included to make wrf_io_flags.h available.
-	# Note that the Makefile system rewrites that file if REAL promotion was requested.
-	# This is not supported currently.
-	../external/ioapi_share
 )
 
 # MSVC does not allow mixing programming languages in one library.
@@ -78,5 +73,11 @@ target_link_libraries(share
 )
 
 target_include_directories(share
+	PUBLIC
+		# Included to make wrf_io_flags.h available.
+		# Note that the Makefile system rewrites that file if REAL promotion was requested.
+		# This is not supported currently.
+		../external/ioapi_share
+	
 	INTERFACE ${CMAKE_Fortran_MODULE_DIRECTORY}
 )

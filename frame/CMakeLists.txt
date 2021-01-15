@@ -83,6 +83,14 @@ set_target_properties(frame PROPERTIES Fortran_FORMAT FREE)
 
 set_source_files_properties(${CMAKE_BINARY_DIR}/frame/module_state_description.F PROPERTIES GENERATED 1)
 
+# Disable optimizations for some files to avoid long compile times
+# and going out of memory. See also arch/noopt_exceptions.
+set_source_files_properties(
+    module_comm_dm.F
+    module_comm_nesting_dm.F
+    PROPERTIES COMPILE_OPTIONS "-O0"
+)
+
 add_dependencies(frame
     generate_inc
 )

@@ -14,7 +14,7 @@ if [ $BUILD_SYSTEM == "CMake" ]; then
 
     # TODO remove -DMPI_* variables once these get auto-detected
     # Note that -DMODE alone decides whether MPI is used or not.
-    cmake -G "MSYS Makefiles" \
+    cmake -GNinja \
         -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
         -DMODE=$MODE -DNESTING=${NESTING} -DUSE_REAL8=${REAL8} \
         -DENABLE_GRIB1=${GRIB1} -DENABLE_GRIB2=${GRIB2} \
@@ -23,11 +23,11 @@ if [ $BUILD_SYSTEM == "CMake" ]; then
         -DDEBUG_ARCH=ON -DDEBUG_GLOBAL_DEFINITIONS=ON -LA ..
 
     # It sometimes happens that the compiler runs out of memory due to parallel compilation.
-    # The construction below means "try with 2 cores, and if it fails, try again with 1 core".
+    # The construction below means "try with full parallelism, and if it fails, try again with 1 core".
     export VERBOSE=1
-    cmake --build . --target install -- -j2 \
-        || cmake --build . --target install \
-        || cmake --build . --target install
+    cmake --build . --target install \
+        || cmake --build . --target install -- -j 1 \
+        || cmake --build . --target install -- -j 1
 
 else
     echo "Unknown system: ${BUILD_SYSTEM}"
