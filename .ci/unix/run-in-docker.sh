@@ -31,7 +31,7 @@ if [ ! "$(docker ps -q -f name=$container)" ]; then
 fi
 
 echo "Running inside container: $@"
-host_envs=$(env | cut -f1 -d= | sed 's/^/-e /' | grep -v -e PATH -e HOME)
+host_envs=$(python3 -c "import os; print(' '.join(f'-e {k}' for k in os.environ if k not in ['PATH', 'HOME']))")
 # Use login shell so that ~/.bash_profile is read.
 # use-conda.sh appends to that file to modify the PATH.
 set -x

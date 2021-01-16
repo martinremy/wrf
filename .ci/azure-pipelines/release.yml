@@ -9,6 +9,9 @@ steps:
     displayName: Create distribution package
 
 - ${{ if not(eq(parameters.OS_NAME, 'Windows')) }}:
+  - bash: $(run) .ci/unix/use-conda.sh
+    displayName: Enable Conda
+  
   - bash: $(run) .ci/unix/delocate.sh
     displayName: Delocate
 
