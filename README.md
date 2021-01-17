@@ -1,5 +1,5 @@
 # WRF-CMake
-[![Build status Azure Pipelines](https://dev.azure.com/WRF-CMake/wrf/_apis/build/status/WRF%20(full)?branchName=wrf-cmake)](https://dev.azure.com/WRF-CMake/wrf/_build/latest?definitionId=5&branchName=wrf-cmake) [![Build status Appveyor](https://ci.appveyor.com/api/projects/status/86508wximkvmf95g/branch/wrf-cmake?svg=true)](https://ci.appveyor.com/project/WRF-CMake/wrf/branch/wrf-cmake) [![Build status Travis CI](https://travis-ci.com/WRF-CMake/wrf.svg?branch=wrf-cmake)](https://travis-ci.com/WRF-CMake/wrf) [![DOI](https://joss.theoj.org/papers/10.21105/joss.01468/status.svg)](https://doi.org/10.21105/joss.01468) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3403342.svg)](https://doi.org/10.5281/zenodo.3403342)
+[![Build status Azure Pipelines](https://dev.azure.com/WRF-CMake/wrf/_apis/build/status/WRF%20(full)?branchName=wrf-cmake)](https://dev.azure.com/WRF-CMake/wrf/_build/latest?definitionId=5&branchName=wrf-cmake) [![DOI](https://joss.theoj.org/papers/10.21105/joss.01468/status.svg)](https://doi.org/10.21105/joss.01468) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3403342.svg)](https://doi.org/10.5281/zenodo.3403342)
 
   - [Project overview](#project-overview)
     - [Currently supported platforms](#currently-supported-platforms)
